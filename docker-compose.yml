@@ -1,0 +1,53 @@
+# launch yml
+
+version : "3"
+
+services:
+
+  mysql:
+    image: mysql
+    volumes:
+      - ./mysql:/var/lib/mysql
+    expose:
+      - "3306"
+    ports:
+      - "3306:3306"
+    restart: always
+    environment:
+      - MYSQL_ROOT_PASSWORD=782744680
+      - MYSQL_DATABASE=djangoblog
+      - MYSQL_USER=zhouxin
+      - MYSQL_PASSWORD=782744680
+    networks:
+      - redhook
+
+  nginx:
+    image: nginx
+    volumes:
+      - ./nginx/nginx.conf:/etc/nginx/nginx.conf
+      - ./nginx/conf:/etc/nginx/conf.d
+      - ./DjangoBlog/staticfiles:/django_static
+    ports:
+      - "80:80"
+    depends_on:
+      - DjangoBlog
+    networks:
+      - redhook
+
+  DjangoBlog:
+    build: .
+    command: uwsgi --ini uwsgi_conf.ini
+    working_dir: /server/DjangoBlog
+    volumes:
+      - .:/server
+    expose:
+      - "8000"
+      - "80"
+    depends_on:
+      - mysql
+    networks:
+      - redhook
+
+networks:
+  redhook:
+    external: true
