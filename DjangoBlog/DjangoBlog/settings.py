@@ -49,9 +49,9 @@ INSTALLED_APPS = [
     'blog',
     'accounts',
     'comments',
-    # 'oauth',
+    'oauth',
     'servermanager',
-    # 'owntracks',
+    'owntracks',
     'compressor'
 ]
 

@@ -30,11 +30,11 @@ services:
     ports:
       - "80:80"
     depends_on:
-      - DjangoBlog
+      - djangoblog
     networks:
       - redhook
 
-  DjangoBlog:
+  djangoblog:
     build: .
     command: uwsgi --ini uwsgi_conf.ini
     working_dir: /server/DjangoBlog
